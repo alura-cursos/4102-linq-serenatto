@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SerenattoPreGravacao.Dados;
+﻿namespace SerenattoPreGravacao.Dados;
 public class DadosPedidos
 {
     public static List<List<int>> QuantidadeItensPedidosPorDia = new List<List<int>>
