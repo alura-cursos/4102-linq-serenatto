@@ -17,5 +17,9 @@ var pesquisa = from p in formasPagamento
                select p;
 
 Console.WriteLine(string.Join(" ", pesquisa));
+
+var pesquisa2 = formasPagamento.Where(p => p.StartsWith('d'));
+
+Console.WriteLine(string.Join(" ", pesquisa2));
               
 
