@@ -133,3 +133,15 @@ foreach (var item in listaProdutosGeral)
 {
     Console.WriteLine(item);
 }
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO PRODUTOS ORDENADOS POR NOME E PREÇO");
+
+var cardapioOrdenado = cardapioLoja
+    .OrderBy(p => p.Nome)
+    .ThenBy(p => p.Preco);
+
+foreach (var item in cardapioOrdenado)
+{
+    Console.WriteLine($"{item.Nome} | {item.Preco}");
+}
