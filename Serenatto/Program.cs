@@ -72,3 +72,23 @@ foreach (var item in produtosPrecoCombo)
     Console.WriteLine($"{item.NomeProduto} | {item.PrecoCombo}");
 }
 
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO QUANTIDADE PRODUTOS PEDIDOS NO MÊS");
+
+IEnumerable<int> totalPedidosMes = DadosPedidos.QuantidadeItensPedidosPorDia.SelectMany(lista => lista);
+
+foreach (var pedido in totalPedidosMes)
+{
+    Console.Write($"{pedido} ");
+}
+
+Console.WriteLine(" ");
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO TOTAL DE PEDIDOS INDIVIDUAIS NO MÊS");
+
+var pedidosIndividuais = DadosPedidos.QuantidadeItensPedidosPorDia
+    .SelectMany(lista => lista)
+    .Count(numero => numero == 1);
+
+Console.WriteLine($"O total de pedidos individuais foi: {pedidosIndividuais}");
+
