@@ -113,3 +113,23 @@ foreach (var produto in produtosSomenteLoja)
 {
     Console.WriteLine(produto);
 }
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO PRODUTOS LOJA E DELIVERY");
+
+var listaProdutosLojaEDelivery = produtoCardapioLoja.Intersect(produtoCardapioDelivery).ToList();
+
+foreach (var item in listaProdutosLojaEDelivery)
+{
+    Console.WriteLine(item);
+}
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO TODOS OS PRODUTOS CARDÁPIO");
+
+var listaProdutosGeral = produtoCardapioLoja.Union(produtoCardapioDelivery).ToList();
+
+foreach (var item in listaProdutosGeral)
+{
+    Console.WriteLine(item);
+}
