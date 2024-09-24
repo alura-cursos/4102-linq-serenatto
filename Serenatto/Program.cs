@@ -44,4 +44,31 @@ foreach (var item in produtosPorNome)
     Console.WriteLine(item);
 }
 
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO PRODUTOS POR PREÇO");
+
+var produtosPreco = cardapioLoja.Select(c => new
+{
+    NomeProduto = c.Nome,
+    PrecoProduto = c.Preco
+});
+
+foreach (var item in produtosPreco)
+{
+    Console.WriteLine($"{item.NomeProduto} | {item.PrecoProduto}");
+}
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO PRODUTOS POR PREÇO NO COMBO LEVE 4 E PAGUE 3");
+
+var produtosPrecoCombo = cardapioLoja.Select(c => new
+{
+    NomeProduto = c.Nome,
+    PrecoCombo = c.Preco * 3
+});
+
+foreach (var item in produtosPrecoCombo)
+{
+    Console.WriteLine($"{item.NomeProduto} | {item.PrecoCombo}");
+}
 
