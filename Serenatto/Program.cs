@@ -5,6 +5,8 @@ using SerenattoPreGravacao.Dados;
 IEnumerable<Cliente> clientes = DadosClientes.GetClientes().ToList();
 IEnumerable<string> formasPagamento = DadosFormaDePagamento.FormasDePagamento;
 IEnumerable<Produto> cardapioLoja = DadosCardapio.GetProdutos();
+IEnumerable<Produto> cardapioDelivery = DadosCardapio.CardapioDelivery();
+IEnumerable<int> totalPedidosMes = DadosPedidos.QuantidadeItensPedidosPorDia.SelectMany(lista => lista);
 
 Console.WriteLine("RELATÓRIO DE DADOS CLIENTES");
 foreach (var cliente in clientes)
@@ -75,8 +77,6 @@ foreach (var item in produtosPrecoCombo)
 Console.WriteLine("--------------------------------");
 Console.WriteLine("RELATÓRIO QUANTIDADE PRODUTOS PEDIDOS NO MÊS");
 
-IEnumerable<int> totalPedidosMes = DadosPedidos.QuantidadeItensPedidosPorDia.SelectMany(lista => lista);
-
 foreach (var pedido in totalPedidosMes)
 {
     Console.Write($"{pedido} ");
@@ -86,9 +86,30 @@ Console.WriteLine(" ");
 Console.WriteLine("--------------------------------");
 Console.WriteLine("RELATÓRIO TOTAL DE PEDIDOS INDIVIDUAIS NO MÊS");
 
-var pedidosIndividuais = DadosPedidos.QuantidadeItensPedidosPorDia
-    .SelectMany(lista => lista)
+var pedidosIndividuais = totalPedidosMes
     .Count(numero => numero == 1);
 
 Console.WriteLine($"O total de pedidos individuais foi: {pedidosIndividuais}");
 
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO PEDIDOS COM QUANTIDADES DIFERENTES DE ITENS");
+
+IEnumerable<int> totalPedidosDiferentesMes = totalPedidosMes.Distinct();
+
+foreach (var pedido in totalPedidosDiferentesMes)
+{
+    Console.Write($"{pedido} ");
+}
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO PRODUTOS SOMENTE LOJA");
+
+IEnumerable<string> produtoCardapioLoja = cardapioLoja.Select(p => p.Nome);
+IEnumerable<string> produtoCardapioDelivery = cardapioDelivery.Select(p => p.Nome);
+
+var produtosSomenteLoja = produtoCardapioLoja.Except(produtoCardapioDelivery).ToList();
+
+foreach (var produto in produtosSomenteLoja)
+{
+    Console.WriteLine(produto);
+}
