@@ -154,8 +154,12 @@ IEnumerable<string> nomeProdutos = carrinho.Select(c => c.Nome);
 IEnumerable<decimal> precoProdutos = carrinho.Select(p => p.Preco);
 
 string resultado = nomeProdutos.Aggregate((p1, p2) => p1 + ", " + p2);
-decimal valorFinal = precoProdutos.Aggregate((n1, n2) => n1 + n2);
+//decimal valorFinal = precoProdutos.Aggregate((n1, n2) => n1 + n2);
+decimal valorFinal = precoProdutos.Sum();
+
+var numeroProdutos = nomeProdutos.Count();
 
 Console.WriteLine(resultado);
+Console.WriteLine($"Total de produtos do carrinho: {numeroProdutos}");
 Console.WriteLine($"Valor total da compra: {valorFinal}");
 
