@@ -7,6 +7,7 @@ IEnumerable<string> formasPagamento = DadosFormaDePagamento.FormasDePagamento;
 IEnumerable<Produto> cardapioLoja = DadosCardapio.GetProdutos();
 IEnumerable<Produto> cardapioDelivery = DadosCardapio.CardapioDelivery();
 IEnumerable<int> totalPedidosMes = DadosPedidos.QuantidadeItensPedidosPorDia.SelectMany(lista => lista);
+IEnumerable<Produto> carrinho = DadosCarrinho.GetProdutosCarrinho();
 
 Console.WriteLine("RELATÓRIO DE DADOS CLIENTES");
 foreach (var cliente in clientes)
@@ -145,3 +146,16 @@ foreach (var item in cardapioOrdenado)
 {
     Console.WriteLine($"{item.Nome} | {item.Preco}");
 }
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO CARRINHO DE COMPRAS");
+
+IEnumerable<string> nomeProdutos = carrinho.Select(c => c.Nome);
+IEnumerable<decimal> precoProdutos = carrinho.Select(p => p.Preco);
+
+string resultado = nomeProdutos.Aggregate((p1, p2) => p1 + ", " + p2);
+decimal valorFinal = precoProdutos.Aggregate((n1, n2) => n1 + n2);
+
+Console.WriteLine(resultado);
+Console.WriteLine($"Valor total da compra: {valorFinal}");
+
