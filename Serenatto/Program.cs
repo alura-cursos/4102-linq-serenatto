@@ -159,7 +159,17 @@ decimal valorFinal = precoProdutos.Sum();
 
 var numeroProdutos = nomeProdutos.Count();
 
+var grupoPorNome = carrinho.GroupBy(p => p.Nome);
+
 Console.WriteLine(resultado);
 Console.WriteLine($"Total de produtos do carrinho: {numeroProdutos}");
+
+foreach (var grupo in grupoPorNome)
+{
+    Console.WriteLine($"Nome do produto: {grupo.Key}");
+    Console.WriteLine($"Numero de produtos: {grupo.Count()}");
+}
+
+
 Console.WriteLine($"Valor total da compra: {valorFinal}");
 
