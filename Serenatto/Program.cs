@@ -33,10 +33,10 @@ using (var context = new SerenattoContext())
                 ListarProdutos(context);
                 break;
             case 3:
-                AtualizarProduto(connectionString);
+                AtualizarProduto(context);
                 break;
             case 4:
-                ExcluirProduto(connectionString);
+                ExcluirProduto(context);
                 break;
             case 5:
                 return;
@@ -149,7 +149,7 @@ using (var context = new SerenattoContext())
         }*/
     }
 
-    static void AtualizarProduto(string connectionString)
+    static void AtualizarProduto(SerenattoContext context)
     {
         Console.Write("Digite o ID do produto a ser atualizado: ");
         if (!Guid.TryParse(Console.ReadLine(), out Guid produtoId))
@@ -158,15 +158,38 @@ using (var context = new SerenattoContext())
             return;
         }
 
+        var produto = context.Produtos.Find(produtoId);
+        if (produto == null) 
+        {
+            Console.WriteLine("Produto não encontrado.");
+            return;
+        }
+
         Console.Write("Novo nome (deixe em branco para manter): ");
         string novoNome = Console.ReadLine();
+
+        if (!string.IsNullOrEmpty(novoNome)) 
+        {
+            produto.Nome = novoNome;
+        }
+
         Console.Write("Novo preço (deixe em branco para manter): ");
-        if (!decimal.TryParse(Console.ReadLine(), out decimal novoPreco))
-        
+        if (decimal.TryParse(Console.ReadLine(), out decimal novoPreco))
+        {
+            produto.Preco = novoPreco;
+        }
+
         Console.Write("Nova descrição (deixe em branco para manter): ");
         string novaDescricao = Console.ReadLine();
+        if (!string.IsNullOrEmpty(novaDescricao))
+        {
+            produto.Descricao = novaDescricao;
+        }
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        context.SaveChanges();
+        Console.WriteLine("Produto alterado com sucesso.");
+
+        /*using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();
 
@@ -190,10 +213,10 @@ using (var context = new SerenattoContext())
                     Console.WriteLine("Produto não encontrado ou não houve alterações.");
                 }
             }
-        }
+        }*/
     }
 
-    static void ExcluirProduto(string connectionString)
+    static void ExcluirProduto(SerenattoContext context)
     {
         Console.Write("Digite o ID do produto a ser excluído: ");
         if (!Guid.TryParse(Console.ReadLine(), out Guid produtoId))
@@ -202,7 +225,18 @@ using (var context = new SerenattoContext())
             return;
         }
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        var produto = context.Produtos.Find(produtoId);
+        if (produto == null)
+        {
+            Console.WriteLine("Produto não encontrado.");
+            return;
+        }
+
+        context.Produtos.Remove(produto);
+        context.SaveChanges();
+        Console.WriteLine("Produto excluído com sucesso!");
+
+        /*using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();
 
@@ -223,6 +257,6 @@ using (var context = new SerenattoContext())
                     Console.WriteLine("Produto não encontrado.");
                 }
             }
-        }
+        }*/
     }
 }
