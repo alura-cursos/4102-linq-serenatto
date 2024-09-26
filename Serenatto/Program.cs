@@ -27,10 +27,10 @@ using (var context = new SerenattoContext())
         switch (opcao)
         {
             case 1:
-                CadastrarProduto(connectionString);
+                CadastrarProduto(context);
                 break;
             case 2:
-                ListarProdutos(connectionString);
+                ListarProdutos(context);
                 break;
             case 3:
                 AtualizarProduto(connectionString);
@@ -50,7 +50,7 @@ using (var context = new SerenattoContext())
 
     }
 
-    static void CadastrarProduto(string connectionString)
+    static void CadastrarProduto(SerenattoContext context)
     {
         Console.Write("Nome do produto: ");
         string nome = Console.ReadLine();
@@ -63,7 +63,13 @@ using (var context = new SerenattoContext())
         Console.Write("Descrição: ");
         string descricao = Console.ReadLine();
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        var produto = new Produto { Id = Guid.NewGuid(), Nome = nome, Preco = preco, Descricao = descricao };
+        context.Produtos.Add(produto);
+        context.SaveChanges();
+
+        Console.WriteLine("Produto cadastrado com sucesso!");
+
+        /*using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();
 
@@ -88,12 +94,26 @@ using (var context = new SerenattoContext())
                     Console.WriteLine("Erro ao cadastrar o produto.");
                 }
             }
-        }
+        }*/
     }
 
-    static void ListarProdutos(string connectionString)
+    static void ListarProdutos(SerenattoContext context)
     {
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        var produtos = context.Produtos.ToList();
+        if (produtos.Count == 0)
+        {
+            Console.WriteLine("Não há produtos cadastrados.");
+        }
+
+        Console.WriteLine("Lista de produtos:");
+        Console.WriteLine("------------------");
+        Console.WriteLine("ID\tNome\tPreço\tDescrição");
+
+        foreach (var produto in produtos) 
+        { 
+            Console.WriteLine($"{produto.Id}\t{produto.Nome}\t{produto.Preco}\t{produto.Descricao}");
+        }
+        /*using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();
 
@@ -126,7 +146,7 @@ using (var context = new SerenattoContext())
                     }
                 }
             }
-        }
+        }*/
     }
 
     static void AtualizarProduto(string connectionString)
@@ -142,9 +162,7 @@ using (var context = new SerenattoContext())
         string novoNome = Console.ReadLine();
         Console.Write("Novo preço (deixe em branco para manter): ");
         if (!decimal.TryParse(Console.ReadLine(), out decimal novoPreco))
-        {
-            novoPreco = 0;
-        }
+        
         Console.Write("Nova descrição (deixe em branco para manter): ");
         string novaDescricao = Console.ReadLine();
 
