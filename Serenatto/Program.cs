@@ -92,3 +92,16 @@ var pedidosIndividuais = DadosPedidos.QuantidadeItensPedidosPorDia
 
 Console.WriteLine($"O total de pedidos individuais foi: {pedidosIndividuais}");
 
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO CLIENTES POR N0ME E TELEFONE");
+
+var clientesNomeTelefone = clientes.Select(c => new
+{
+    NomeCliente = c.Nome,
+    TelefoneCliente = c.Telefone
+});
+
+foreach (var cliente in clientesNomeTelefone)
+{
+    Console.WriteLine($"{cliente.NomeCliente} | {cliente.TelefoneCliente}");
+}
