@@ -173,3 +173,26 @@ foreach (var grupo in grupoPorNome)
 
 Console.WriteLine($"Valor total da compra: {valorFinal}");
 
+Console.WriteLine("---------------------------");
+Console.WriteLine("RELATÓRIO CLIENTES POR ÁREA");
+
+IEnumerable<string> nomeClientes = clientes.Select(c => c.Nome);
+
+var numeroClientes = nomeClientes.Count();
+
+var grupoPorCodigo = clientes.GroupBy(p => new string(p.Telefone.ToString().Skip(1).Take(2).ToArray()));
+
+Console.WriteLine($"Total de clientes cadastrados: {numeroClientes}");
+
+foreach (var grupo in grupoPorCodigo)
+{
+    Console.WriteLine($"Código de área: {grupo.Key}");
+    Console.WriteLine($"Número de clientes: {grupo.Count()}");
+
+    Console.WriteLine("Clientes:");
+    foreach (var cliente in grupo)
+    {
+        Console.WriteLine(cliente.Nome);
+    }
+}
+
