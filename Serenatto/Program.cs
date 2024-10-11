@@ -21,5 +21,13 @@ Console.WriteLine(string.Join(" ", pesquisa));
 var pesquisa2 = formasPagamento.Where(p => p.StartsWith('d'));
 
 Console.WriteLine(string.Join(" ", pesquisa2));
-              
 
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO CLIENTES POR NOME");
+
+var clientesPorNome = clientes.Where(c => c.Nome.StartsWith('A'));
+
+foreach (var cliente in clientesPorNome)
+{
+    Console.WriteLine(cliente.Nome);
+}
