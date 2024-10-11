@@ -145,3 +145,15 @@ foreach (var item in cardapioOrdenado)
 {
     Console.WriteLine($"{item.Nome} | {item.Preco}");
 }
+
+Console.WriteLine("--------------------------------");
+Console.WriteLine("RELATÓRIO CLIENTES ORDENADOS POR NOME E ENDEREÇO");
+
+var clientesOrdenados = clientes
+    .OrderBy(c => c.Nome)
+    .ThenBy(c => c.Endereco);
+
+foreach (var cliente in clientesOrdenados)
+{
+    Console.WriteLine($"{cliente.Nome} | {cliente.Endereco}");
+}
